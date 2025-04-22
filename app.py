@@ -61,6 +61,7 @@ def get_db_connection(pg_host, pg_database, pg_user, pg_password, pg_port):
             password=pg_password,
             port=pg_port,
         )
+        print("database connected")
         return conn
     except psycopg2.Error as e:
         st.error(f"Error connecting to PostgreSQL: {e}")
@@ -308,7 +309,7 @@ def main():
                         selected_cred["Host"],
                         selected_cred["Database"],
                         selected_cred["Username"],
-                        selected_cred["Password"],
+                        selected_cred["Database_Password"],
                         selected_cred["Port"]
                     )
                     if conn:
