@@ -309,7 +309,7 @@ def main():
                         selected_cred["Host"],
                         selected_cred["Database"],
                         selected_cred["Username"],
-                        selected_cred["Database_Password"],
+                        selected_cred["Database_Pass"],
                         selected_cred["Port"]
                     )
                     if conn:
