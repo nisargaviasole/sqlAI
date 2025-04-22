@@ -1,0 +1,94 @@
+[
+  {
+    "table_name": "users",
+    "description": "Contains user profile information",
+    "columns": ["id", "name", "email", "birthdate", "created_at"],
+    "column_details": {
+      "id": { "data_type": "INTEGER", "description": "Primary key" },
+      "name": {
+        "data_type": "VARCHAR(255)",
+        "description": "User's full name"
+      },
+      "email": {
+        "data_type": "VARCHAR(255)",
+        "description": "User's email address"
+      },
+      "birthdate": {
+        "data_type": "DATE",
+        "description": "User's date of birth"
+      },
+      "created_at": {
+        "data_type": "TIMESTAMP",
+        "description": "When the user account was created"
+      }
+    },
+    "relationships": [
+      {
+        "type": "one-to-many",
+        "related_table": "orders",
+        "from_column": "id",
+        "to_column": "user_id"
+      }
+    ]
+  },
+  {
+    "table_name": "orders",
+    "description": "Contains order information",
+    "columns": ["id", "user_id", "order_date", "total_amount", "status"],
+    "column_details": {
+      "id": { "data_type": "INTEGER", "description": "Primary key" },
+      "user_id": {
+        "data_type": "INTEGER",
+        "description": "Foreign key to users.id"
+      },
+      "order_date": {
+        "data_type": "TIMESTAMP",
+        "description": "When the order was placed"
+      },
+      "total_amount": {
+        "data_type": "DECIMAL(10,2)",
+        "description": "Total order amount"
+      },
+      "status": {
+        "data_type": "VARCHAR(50)",
+        "description": "Order status (pending, shipped, delivered)"
+      }
+    },
+    "relationships": [
+      {
+        "type": "many-to-one",
+        "related_table": "users",
+        "from_column": "user_id",
+        "to_column": "id"
+      },
+      {
+        "type": "one-to-many",
+        "related_table": "order_items",
+        "from_column": "id",
+        "to_column": "order_id"
+      }
+    ]
+  },
+  {
+    "table_name": "products",
+    "description": "Contains product information",
+    "columns": ["id", "name", "description", "price", "category", "stock"],
+    "column_details": {
+      "id": { "data_type": "INTEGER", "description": "Primary key" },
+      "name": { "data_type": "VARCHAR(255)", "description": "Product name" },
+      "description": {
+        "data_type": "TEXT",
+        "description": "Product description"
+      },
+      "price": { "data_type": "DECIMAL(10,2)", "description": "Product price" },
+      "category": {
+        "data_type": "VARCHAR(100)",
+        "description": "Product category"
+      },
+      "stock": {
+        "data_type": "INTEGER",
+        "description": "Available stock quantity"
+      }
+    }
+  }
+]

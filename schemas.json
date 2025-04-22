@@ -1,0 +1,4713 @@
+[
+    {
+        "table_name": "AgentAgencyBalanceSheets",
+        "description": "",
+        "columns": [
+            "Id",
+            "AgencyId",
+            "PaymentCycleId",
+            "AgentId",
+            "DebitAmount",
+            "CreditAmount",
+            "Perticulers",
+            "CarrierId",
+            "LOB",
+            "TenantId",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentCycleId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "DebitAmount": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "CreditAmount": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "Perticulers": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "LOB": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentCycle",
+                "from_column": "PaymentCycleId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "AgencyPayments",
+        "description": "",
+        "columns": [
+            "Id",
+            "AgencyId",
+            "PaymentCycleId",
+            "PayableAmount",
+            "PaymentInitializationDate",
+            "PaymentTransectionId",
+            "PaymentComleteDate",
+            "PaymentStatus",
+            "Lives",
+            "Total_Override",
+            "Total_Chargeback",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId",
+            "PaymentStatementId",
+            "SendEmailDate",
+            "StatementStatus",
+            "ActualPaymentAmount",
+            "SettlementPaymentAmount"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentCycleId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PayableAmount": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "PaymentInitializationDate": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "PaymentTransectionId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentComleteDate": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "PaymentStatus": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Lives": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Total_Override": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Total_Chargeback": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "PaymentStatementId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "SendEmailDate": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "StatementStatus": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "ActualPaymentAmount": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "SettlementPaymentAmount": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentCycle",
+                "from_column": "PaymentCycleId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatement",
+                "from_column": "PaymentStatementId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "Transactions",
+                "from_column": "PaymentTransectionId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "AgencyCommissionTiers",
+        "description": "",
+        "columns": [
+            "Id",
+            "TenantId",
+            "LOB",
+            "Description",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LOB": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Description": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            }
+        },
+        "relationships": []
+    },
+    {
+        "table_name": "AgentAssignment",
+        "description": "",
+        "columns": [
+            "Id",
+            "AgentId",
+            "RuleId",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "RuleId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "Rule",
+                "from_column": "RuleId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "BackLogMasterds",
+        "description": "",
+        "columns": [
+            "Id",
+            "PaymentStatementId",
+            "CarrierId",
+            "LOB",
+            "Title",
+            "Description",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentStatementId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "LOB": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Title": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "Description": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatement",
+                "from_column": "PaymentStatementId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "BonusCalcualations",
+        "description": "",
+        "columns": [
+            "Id",
+            "PaymentCycleId",
+            "CarrierId",
+            "AgentId",
+            "RuleId",
+            "Percentage",
+            "Total_Bonus",
+            "State",
+            "Lives",
+            "Rate",
+            "Bonus",
+            "PolicyType",
+            "PaymentStatementDataId",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentCycleId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "RuleId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "Percentage": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "Total_Bonus": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "Lives": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Rate": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "Bonus": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "PolicyType": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "PaymentStatementDataId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentCycle",
+                "from_column": "PaymentCycleId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatementData",
+                "from_column": "PaymentStatementDataId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "Rule",
+                "from_column": "RuleId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "AgencyRefferalFees",
+        "description": "",
+        "columns": [
+            "Id",
+            "RefferalAgencyId",
+            "AgencyId",
+            "LOB",
+            "CarrierId",
+            "PolicyType",
+            "IncludeSubAgency",
+            "Fees",
+            "State",
+            "PolicyBeforeDate",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "RefferalAgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "LOB": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PolicyType": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "IncludeSubAgency": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "Fees": {
+                "data_type": "NUMERIC",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "PolicyBeforeDate": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": []
+    },
+    {
+        "table_name": "AgencyOverrideCalculations",
+        "description": "",
+        "columns": [
+            "Id",
+            "AgencyId",
+            "PaymentStatementId",
+            "NewPolicyAmount",
+            "RenewalPolicyAmount",
+            "IsMain",
+            "History",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId",
+            "AgentId",
+            "IsAgentPayment"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentStatementId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "NewPolicyAmount": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "RenewalPolicyAmount": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "IsMain": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "History": {
+                "data_type": "JSONB",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "AgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "IsAgentPayment": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatement",
+                "from_column": "PaymentStatementId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "AgencyProductions",
+        "description": "",
+        "columns": [
+            "Id",
+            "AgencyId",
+            "CarrierId",
+            "StatementId",
+            "AssignGroupId",
+            "CalculatedGroupId",
+            "State",
+            "TotalLives_new",
+            "TotalLives_renewal",
+            "AssigGroupId",
+            "CalculateGroupId",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "StatementId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AssignGroupId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CalculatedGroupId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "TotalLives_new": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "TotalLives_renewal": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "AssigGroupId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CalculateGroupId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "OverrideGroup",
+                "from_column": "AssigGroupId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "OverrideGroup",
+                "from_column": "CalculateGroupId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatement",
+                "from_column": "StatementId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "AgentPayments",
+        "description": "",
+        "columns": [
+            "Id",
+            "AgencyId",
+            "AgentId",
+            "PaymentCycleId",
+            "PayableAmount",
+            "PaymentInitializationDate",
+            "PaymentTransectionId",
+            "PaymentComleteDate",
+            "PaymentStatus",
+            "Lives",
+            "Total_Bonus",
+            "Total_Commission",
+            "Total_Chargeback",
+            "PaymentDestination",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId",
+            "PaymentStatementId",
+            "SendEmailDate",
+            "StatementStatus",
+            "ActualPaymentAmount",
+            "SettlementPaymentAmount",
+            "BonusPaymentReason",
+            "CommissionPaymentReason",
+            "OverridePaymentReason",
+            "Total_Override"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentCycleId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PayableAmount": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "PaymentInitializationDate": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "PaymentTransectionId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentComleteDate": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "PaymentStatus": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Lives": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Total_Bonus": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Total_Commission": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Total_Chargeback": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "PaymentDestination": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "PaymentStatementId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "SendEmailDate": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "StatementStatus": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "ActualPaymentAmount": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "SettlementPaymentAmount": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "BonusPaymentReason": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CommissionPaymentReason": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "OverridePaymentReason": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Total_Override": {
+                "data_type": "INTEGER",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentCycle",
+                "from_column": "PaymentCycleId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatement",
+                "from_column": "PaymentStatementId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "Transactions",
+                "from_column": "PaymentTransectionId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "AgentProduction",
+        "description": "",
+        "columns": [
+            "Id",
+            "AgentId",
+            "NPN",
+            "CarrierId",
+            "StatementId",
+            "CalculatedGroupId",
+            "AssignGroupId",
+            "State",
+            "TotalLives_new",
+            "TotalLives_renewal",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "NPN": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "StatementId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CalculatedGroupId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AssignGroupId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "TotalLives_new": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "TotalLives_renewal": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "OverrideGroup",
+                "from_column": "AssignGroupId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "OverrideGroup",
+                "from_column": "CalculatedGroupId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatement",
+                "from_column": "StatementId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "CarrierProductions",
+        "description": "",
+        "columns": [
+            "Id",
+            "CarrierId",
+            "AgentId",
+            "AgencyId",
+            "Total_Lives",
+            "Type",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "Total_Lives": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "Type": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": []
+    },
+    {
+        "table_name": "ChargebackOverrideCalculations",
+        "description": "",
+        "columns": [
+            "Id",
+            "PaymentCycleId",
+            "AgentId",
+            "AgencyId",
+            "CarrierId",
+            "Lives",
+            "State",
+            "OverrideRate",
+            "Rate",
+            "OverrideGroup",
+            "AssignGroup",
+            "PolicyType",
+            "PaymentStatementDataId",
+            "TenantId",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentCycleId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "Lives": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "OverrideRate": {
+                "data_type": "NUMERIC",
+                "description": ""
+            },
+            "Rate": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "OverrideGroup": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AssignGroup": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PolicyType": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "PaymentStatementDataId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentCycle",
+                "from_column": "PaymentCycleId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatementData",
+                "from_column": "PaymentStatementDataId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "CommissionCalculation",
+        "description": "",
+        "columns": [
+            "Id",
+            "PaymentCycleId",
+            "CarrierId",
+            "AgentId",
+            "RuleId",
+            "Percentage",
+            "Total_Commission",
+            "State",
+            "Lives",
+            "Rate",
+            "Commission",
+            "PolicyType",
+            "PaymentStatementDataId",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentCycleId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "RuleId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "Percentage": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "Total_Commission": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "Lives": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Rate": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "Commission": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "PolicyType": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "PaymentStatementDataId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentCycle",
+                "from_column": "PaymentCycleId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatementData",
+                "from_column": "PaymentStatementDataId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "Rule",
+                "from_column": "RuleId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "MamberBasedFees",
+        "description": "",
+        "columns": [
+            "Id",
+            "FeeName",
+            "LOB",
+            "CarrierId",
+            "PolicyType",
+            "IncludeSubAgency",
+            "Fees",
+            "State",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "AgencyId",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "FeeName": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "LOB": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PolicyType": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "IncludeSubAgency": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "Fees": {
+                "data_type": "NUMERIC",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": []
+    },
+    {
+        "table_name": "MemberBasedFeeCalculations",
+        "description": "",
+        "columns": [
+            "Id",
+            "AgencyId",
+            "CarrierId",
+            "LOB",
+            "State",
+            "PolicyType",
+            "Total_Lives",
+            "TotalFees",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "LOB": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "PolicyType": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Total_Lives": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "TotalFees": {
+                "data_type": "NUMERIC",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": []
+    },
+    {
+        "table_name": "PaymentStatementBacklogDatas",
+        "description": "",
+        "columns": [
+            "Id",
+            "PaymentStatementId",
+            "BackLogMasterdId",
+            "AgentNPN",
+            "AgentName",
+            "PolicyNumber",
+            "InsuredName",
+            "State",
+            "CommissionRate",
+            "OverrideRate",
+            "NoOfPerson",
+            "EffectiveDate",
+            "CommisionDate",
+            "StatementDate",
+            "IsCounted",
+            "CountedDate",
+            "PolicyType",
+            "WrittingNumber",
+            "IsVerify",
+            "VerifyDate",
+            "AgentId",
+            "IsRateApproved",
+            "IsRelation",
+            "Reason",
+            "IsWrittingNumber",
+            "IsDuplicate",
+            "DuplicationAllowUserId",
+            "DuplicationAllowComment",
+            "DuplicationAllowDate",
+            "CarrierRateAllowUserId",
+            "CarrierRateAllowComment",
+            "CarrierRateAllowDate",
+            "WritingNumberAllowUserId",
+            "WritingNumberAllowComment",
+            "WritingNumberAllowDate",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentStatementId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "BackLogMasterdId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentNPN": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentName": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "PolicyNumber": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "InsuredName": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "CommissionRate": {
+                "data_type": "NUMERIC",
+                "description": ""
+            },
+            "OverrideRate": {
+                "data_type": "NUMERIC",
+                "description": ""
+            },
+            "NoOfPerson": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "EffectiveDate": {
+                "data_type": "DATE",
+                "description": ""
+            },
+            "CommisionDate": {
+                "data_type": "DATE",
+                "description": ""
+            },
+            "StatementDate": {
+                "data_type": "DATE",
+                "description": ""
+            },
+            "IsCounted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "CountedDate": {
+                "data_type": "DATE",
+                "description": ""
+            },
+            "PolicyType": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "WrittingNumber": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "IsVerify": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "VerifyDate": {
+                "data_type": "DATE",
+                "description": ""
+            },
+            "AgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "IsRateApproved": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "IsRelation": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "Reason": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "IsWrittingNumber": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "IsDuplicate": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DuplicationAllowUserId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DuplicationAllowComment": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "DuplicationAllowDate": {
+                "data_type": "DATE",
+                "description": ""
+            },
+            "CarrierRateAllowUserId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "CarrierRateAllowComment": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "CarrierRateAllowDate": {
+                "data_type": "DATE",
+                "description": ""
+            },
+            "WritingNumberAllowUserId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "WritingNumberAllowComment": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "WritingNumberAllowDate": {
+                "data_type": "DATE",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "BackLogMasterds",
+                "from_column": "BackLogMasterdId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatement",
+                "from_column": "PaymentStatementId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "PaymentStatementData",
+        "description": "",
+        "columns": [
+            "Id",
+            "PaymentStatementId",
+            "AgentNPN",
+            "AgentName",
+            "PolicyNumber",
+            "InsuredName",
+            "State",
+            "CommissionRate",
+            "OverrideRate",
+            "NoOfPerson",
+            "EffectiveDate",
+            "CommisionDate",
+            "StatementDate",
+            "IsCounted",
+            "CountedDate",
+            "PolicyType",
+            "WrittingNumber",
+            "IsVerify",
+            "VerifyDate",
+            "AgentId",
+            "IsRateApproved",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "IsRelation",
+            "Reason",
+            "DuplicationAllowComment",
+            "DuplicationAllowDate",
+            "DuplicationAllowUserId",
+            "IsDuplicate",
+            "CarrierRateAllowComment",
+            "CarrierRateAllowDate",
+            "CarrierRateAllowUserId",
+            "WritingNumberAllowComment",
+            "WritingNumberAllowDate",
+            "WritingNumberAllowUserId",
+            "IsWrittingNumber",
+            "TenantId",
+            "RuleFound"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentStatementId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentNPN": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentName": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "PolicyNumber": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "InsuredName": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "CommissionRate": {
+                "data_type": "NUMERIC",
+                "description": ""
+            },
+            "OverrideRate": {
+                "data_type": "NUMERIC",
+                "description": ""
+            },
+            "NoOfPerson": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "EffectiveDate": {
+                "data_type": "DATE",
+                "description": ""
+            },
+            "CommisionDate": {
+                "data_type": "DATE",
+                "description": ""
+            },
+            "StatementDate": {
+                "data_type": "DATE",
+                "description": ""
+            },
+            "IsCounted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "CountedDate": {
+                "data_type": "DATE",
+                "description": ""
+            },
+            "PolicyType": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "WrittingNumber": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "IsVerify": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "VerifyDate": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "AgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "IsRateApproved": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "IsRelation": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "Reason": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "DuplicationAllowComment": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "DuplicationAllowDate": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "DuplicationAllowUserId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDuplicate": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "CarrierRateAllowComment": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "CarrierRateAllowDate": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CarrierRateAllowUserId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "WritingNumberAllowComment": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "WritingNumberAllowDate": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "WritingNumberAllowUserId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsWrittingNumber": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "RuleFound": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatement",
+                "from_column": "PaymentStatementId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "OverrideGroup",
+        "description": "",
+        "columns": [
+            "Id",
+            "GroupName",
+            "StartRange",
+            "EndRange",
+            "Type",
+            "State",
+            "CarrierId",
+            "NewPolicy",
+            "RenewalPolicy",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "AgencyId",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "GroupName": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "StartRange": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "EndRange": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Type": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "NewPolicy": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "RenewalPolicy": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": []
+    },
+    {
+        "table_name": "PaymentCycle",
+        "description": "",
+        "columns": [
+            "Id",
+            "CycleName",
+            "PaymentDate",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "AgencyId",
+            "TenantId",
+            "IsClosed"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CycleName": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "PaymentDate": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsClosed": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            }
+        },
+        "relationships": []
+    },
+    {
+        "table_name": "PaymentStatementDataHistories",
+        "description": "",
+        "columns": [
+            "Id",
+            "PaymentStatementDataId",
+            "Comment",
+            "CommentType",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentStatementDataId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "Comment": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "CommentType": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatementData",
+                "from_column": "PaymentStatementDataId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "OverrideCalculation",
+        "description": "",
+        "columns": [
+            "Id",
+            "PaymentCycleId",
+            "AgentId",
+            "AgencyId",
+            "CarrierId",
+            "Lives",
+            "State",
+            "OverrideRate",
+            "Rate",
+            "OverrideGroup",
+            "AssignGroup",
+            "PolicyType",
+            "PaymentStatementDataId",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId",
+            "IsAgentPayment"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentCycleId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "Lives": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "OverrideRate": {
+                "data_type": "NUMERIC",
+                "description": ""
+            },
+            "Rate": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "OverrideGroup": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AssignGroup": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PolicyType": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "PaymentStatementDataId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsAgentPayment": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentCycle",
+                "from_column": "PaymentCycleId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatementData",
+                "from_column": "PaymentStatementDataId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "ReportsEmailNotifications",
+        "description": "",
+        "columns": [
+            "Id",
+            "AgentId",
+            "AgencyId",
+            "PaymentCycleId",
+            "NotificationSent",
+            "Type",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentCycleId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "NotificationSent": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "Type": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentCycle",
+                "from_column": "PaymentCycleId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "Reports",
+        "description": "",
+        "columns": [
+            "Id",
+            "ReportName",
+            "Objects",
+            "Type",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "ReportName": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "Objects": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "Type": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": []
+    },
+    {
+        "table_name": "ReferalFees",
+        "description": "",
+        "columns": [
+            "Id",
+            "ParentId",
+            "AgencyId",
+            "ReferalId",
+            "TotalLives",
+            "State",
+            "Fees",
+            "LOB",
+            "PaymentStatemntId",
+            "PolicyType",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "ParentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "ReferalId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "TotalLives": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "Fees": {
+                "data_type": "NUMERIC",
+                "description": ""
+            },
+            "LOB": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "PaymentStatemntId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PolicyType": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "AgencyRefferalFees",
+                "from_column": "ReferalId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatement",
+                "from_column": "PaymentStatemntId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "SherpaMappings",
+        "description": "",
+        "columns": [
+            "Id",
+            "PolicyHolderName",
+            "PolicyNumber",
+            "CarrierId",
+            "State",
+            "AgentId",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PolicyHolderName": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "PolicyNumber": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "AgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": []
+    },
+    {
+        "table_name": "Rule",
+        "description": "",
+        "columns": [
+            "Id",
+            "Name",
+            "CarrierId",
+            "State",
+            "LOB",
+            "Type",
+            "NewPolicy",
+            "RenewalPolicy",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "RuleAmountType",
+            "OverrideGroupId",
+            "AgencyId",
+            "IsClone",
+            "Year",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "Name": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "LOB": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Type": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "NewPolicy": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "RenewalPolicy": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "RuleAmountType": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "OverrideGroupId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "IsClone": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "Year": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "OverrideGroup",
+                "from_column": "OverrideGroupId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "SherpaDatas",
+        "description": "",
+        "columns": [
+            "Id",
+            "MemberName",
+            "AgentName",
+            "State",
+            "Issuer",
+            "NPN",
+            "SherpaStatementId",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "MemberName": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "AgentName": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "Issuer": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "NPN": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "SherpaStatementId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "SherpaStatements",
+                "from_column": "SherpaStatementId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "StatementColumnData",
+        "description": "",
+        "columns": [
+            "Id",
+            "TenantId",
+            "CarrierId",
+            "Lob",
+            "StatementType",
+            "ExtraProperties",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "Lob": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "StatementType": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "ExtraProperties": {
+                "data_type": "JSONB",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            }
+        },
+        "relationships": []
+    },
+    {
+        "table_name": "UnitBasedCalculations",
+        "description": "",
+        "columns": [
+            "Id",
+            "AgencyId",
+            "PaymentCycleId",
+            "CarrierId",
+            "UnitBasedFeeId",
+            "Count",
+            "Total_Fees",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentCycleId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "UnitBasedFeeId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "Count": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Total_Fees": {
+                "data_type": "NUMERIC",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentCycle",
+                "from_column": "PaymentCycleId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "UnitBasedFees",
+                "from_column": "UnitBasedFeeId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "UnitBasedFees",
+        "description": "",
+        "columns": [
+            "Id",
+            "FeeName",
+            "Fee",
+            "FeeTypes",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "AgencyId",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "FeeName": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "Fee": {
+                "data_type": "NUMERIC",
+                "description": ""
+            },
+            "FeeTypes": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": []
+    },
+    {
+        "table_name": "chargeCommissionBackCalculations",
+        "description": "",
+        "columns": [
+            "Id",
+            "PaymentStatementId",
+            "AgentNPN",
+            "AgentName",
+            "PolicyNumber",
+            "CarrierID",
+            "LOB",
+            "State",
+            "Rate",
+            "TotalRate",
+            "ChargeBackRate",
+            "AgentId",
+            "CommissionCalculationId",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "PaymentStatementDataId",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentStatementId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentNPN": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentName": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "PolicyNumber": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "CarrierID": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "LOB": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "Rate": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "TotalRate": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "ChargeBackRate": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "AgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CommissionCalculationId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "PaymentStatementDataId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "CommissionCalculation",
+                "from_column": "CommissionCalculationId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatementData",
+                "from_column": "PaymentStatementDataId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatement",
+                "from_column": "PaymentStatementId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "WritingNumberAgentMapping",
+        "description": "",
+        "columns": [
+            "Id",
+            "WrittingNumber",
+            "LOB",
+            "CarrierId",
+            "State",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "DestinationAgentId",
+            "DestinationAgentNpn",
+            "IsDataProcessing",
+            "PolicyNumber",
+            "SourceAgentId",
+            "SourceAgentNpn",
+            "History",
+            "IsPolicyRelease",
+            "IsVerify",
+            "Reason",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "WrittingNumber": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "LOB": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "DestinationAgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "DestinationAgentNpn": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "IsDataProcessing": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "PolicyNumber": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "SourceAgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "SourceAgentNpn": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "History": {
+                "data_type": "JSONB",
+                "description": ""
+            },
+            "IsPolicyRelease": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "IsVerify": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "Reason": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": []
+    },
+    {
+        "table_name": "__CommissionService_Migrations",
+        "description": "",
+        "columns": [
+            "MigrationId",
+            "ProductVersion"
+        ],
+        "column_details": {
+            "MigrationId": {
+                "data_type": "CHARACTER VARYING",
+                "description": ""
+            },
+            "ProductVersion": {
+                "data_type": "CHARACTER VARYING",
+                "description": ""
+            }
+        },
+        "relationships": []
+    },
+    {
+        "table_name": "carrierCommissions",
+        "description": "",
+        "columns": [
+            "Id",
+            "CarrierId",
+            "State",
+            "LOB",
+            "NewPolicyRate",
+            "RenewalPolicyRate",
+            "OverrideNewPolicyRate",
+            "OverrideRenewalPolicyRate",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "AgencyId",
+            "TenantId",
+            "Year",
+            "Month"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "LOB": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "NewPolicyRate": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "RenewalPolicyRate": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "OverrideNewPolicyRate": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "OverrideRenewalPolicyRate": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "Year": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Month": {
+                "data_type": "INTEGER",
+                "description": ""
+            }
+        },
+        "relationships": []
+    },
+    {
+        "table_name": "AgencyAssignment",
+        "description": "",
+        "columns": [
+            "Id",
+            "AgencyId",
+            "RuleId",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "RuleId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "Rule",
+                "from_column": "RuleId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "PaymentStatement",
+        "description": "",
+        "columns": [
+            "Id",
+            "PaymentCycleId",
+            "LOB",
+            "CarrierId",
+            "StatementType",
+            "StatementDate",
+            "StatementStep",
+            "IsWrittingNumber",
+            "IsDataProcessing",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "Comment",
+            "AgencyId",
+            "CloseDateTime",
+            "ClosedByUserId",
+            "ReasonClose",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentCycleId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "LOB": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "StatementType": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "StatementDate": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "StatementStep": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "IsWrittingNumber": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "IsDataProcessing": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "Comment": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CloseDateTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "ClosedByUserId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "ReasonClose": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentCycle",
+                "from_column": "PaymentCycleId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "Transactions",
+        "description": "",
+        "columns": [
+            "Id",
+            "PaymentReferenceId",
+            "PaymentRequest",
+            "PaymentResponse",
+            "TotalAmount",
+            "PaidAmount",
+            "PaymentDate",
+            "PaymentStatus",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentReferenceId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentRequest": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "PaymentResponse": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "TotalAmount": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "PaidAmount": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "PaymentDate": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "PaymentStatus": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": []
+    },
+    {
+        "table_name": "AgencyTierAssignment",
+        "description": "",
+        "columns": [
+            "Id",
+            "TenantId",
+            "TierId",
+            "AgencyId",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "IsActive",
+            "Year"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "TierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "IsActive": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "Year": {
+                "data_type": "INTEGER",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "AgencyCommissionTiers",
+                "from_column": "TierId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "ChargeBackOverrideCalculations",
+        "description": "",
+        "columns": [
+            "Id",
+            "PaymentStatementId",
+            "AgentNPN",
+            "AgentName",
+            "PolicyNumber",
+            "CarrierID",
+            "LOB",
+            "State",
+            "Rate",
+            "TotalRate",
+            "ChargeBackRate",
+            "AgentId",
+            "AgencyId",
+            "OverrideCalculationId",
+            "AgencyOverrideCalculationId",
+            "PaymentStatementDataId",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "NoOfPerson",
+            "OverrideRuleRate",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentStatementId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentNPN": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgentName": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "PolicyNumber": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "CarrierID": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "LOB": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "Rate": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "TotalRate": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "ChargeBackRate": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "AgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "OverrideCalculationId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "AgencyOverrideCalculationId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentStatementDataId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "NoOfPerson": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "OverrideRuleRate": {
+                "data_type": "NUMERIC",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "AgencyOverrideCalculations",
+                "from_column": "AgencyOverrideCalculationId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "OverrideCalculation",
+                "from_column": "OverrideCalculationId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatementData",
+                "from_column": "PaymentStatementDataId",
+                "to_column": "Id"
+            },
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatement",
+                "from_column": "PaymentStatementId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "ChargebackAgencyOverrideCalculations",
+        "description": "",
+        "columns": [
+            "Id",
+            "TenantId",
+            "AgencyId",
+            "PaymentStatementId",
+            "NewPolicyAmount",
+            "RenewalPolicyAmount",
+            "IsMain",
+            "History",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentStatementId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "NewPolicyAmount": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "RenewalPolicyAmount": {
+                "data_type": "DOUBLE PRECISION",
+                "description": ""
+            },
+            "IsMain": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "History": {
+                "data_type": "JSONB",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatement",
+                "from_column": "PaymentStatementId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "CommissionClaims",
+        "description": "",
+        "columns": [
+            "Id",
+            "LOB",
+            "CarrierId",
+            "State",
+            "FirstName",
+            "LastName",
+            "PolicyNumber",
+            "MemberCount",
+            "EffectiveDate",
+            "Month",
+            "Year",
+            "AgentId",
+            "DOB",
+            "AgencyId",
+            "Problem",
+            "Status",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "PaymentStatementDataId",
+            "UserType",
+            "CommissionRate",
+            "PolicyType",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "LOB": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CarrierId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "State": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "FirstName": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "LastName": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "PolicyNumber": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "MemberCount": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "EffectiveDate": {
+                "data_type": "DATE",
+                "description": ""
+            },
+            "Month": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "Year": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "AgentId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "DOB": {
+                "data_type": "DATE",
+                "description": ""
+            },
+            "AgencyId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "Problem": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "Status": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "PaymentStatementDataId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "UserType": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CommissionRate": {
+                "data_type": "NUMERIC",
+                "description": ""
+            },
+            "PolicyType": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentStatementData",
+                "from_column": "PaymentStatementDataId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "CommissionClaimDocuments",
+        "description": "",
+        "columns": [
+            "Id",
+            "CommissionClaimId",
+            "File",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "CommissionClaimId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "File": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "CommissionClaims",
+                "from_column": "CommissionClaimId",
+                "to_column": "Id"
+            }
+        ]
+    },
+    {
+        "table_name": "SherpaStatements",
+        "description": "",
+        "columns": [
+            "Id",
+            "PaymentCycleId",
+            "FileName",
+            "Isprocess",
+            "CreationTime",
+            "CreatorId",
+            "LastModificationTime",
+            "LastModifierId",
+            "IsDeleted",
+            "DeleterId",
+            "DeletionTime",
+            "TenantId"
+        ],
+        "column_details": {
+            "Id": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "PaymentCycleId": {
+                "data_type": "BIGINT",
+                "description": ""
+            },
+            "FileName": {
+                "data_type": "TEXT",
+                "description": ""
+            },
+            "Isprocess": {
+                "data_type": "INTEGER",
+                "description": ""
+            },
+            "CreationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "CreatorId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "LastModificationTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "LastModifierId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "IsDeleted": {
+                "data_type": "BOOLEAN",
+                "description": ""
+            },
+            "DeleterId": {
+                "data_type": "UUID",
+                "description": ""
+            },
+            "DeletionTime": {
+                "data_type": "TIMESTAMP WITHOUT TIME ZONE",
+                "description": ""
+            },
+            "TenantId": {
+                "data_type": "UUID",
+                "description": ""
+            }
+        },
+        "relationships": [
+            {
+                "type": "many-to-one",
+                "related_table": "PaymentCycle",
+                "from_column": "PaymentCycleId",
+                "to_column": "Id"
+            }
+        ]
+    }
+]
