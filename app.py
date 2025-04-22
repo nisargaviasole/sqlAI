@@ -14,10 +14,12 @@ import uuid
 # Patch LocalSourcesWatcher to skip torch.classes
 original_get_module_paths = local_sources_watcher.get_module_paths
 
+
 def patched_get_module_paths(module):
     if module.__name__.startswith("torch.classes"):
         return []
     return original_get_module_paths(module)
+
 
 local_sources_watcher.get_module_paths = patched_get_module_paths
 
@@ -26,8 +28,14 @@ env_vars = dotenv_values(".env")
 GROQ_API_KEY = env_vars.get("GROQ_API_KEY")
 
 # Initialize embedding model
-embedding_model_name = "all-MiniLM-L6-v2"
-embeddings = HuggingFaceEmbeddings(model_name=embedding_model_name)
+os.environ["TRANSFORMERS_CACHE"] = os.path.join(os.getcwd(), "hf_cache")
+os.environ["HF_HOME"] = os.path.join(os.getcwd(), "hf_cache")
+
+# Initialize embedding model
+embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
+embeddings = HuggingFaceEmbeddings(
+    model_name=embedding_model_name, cache_folder=os.path.join(os.getcwd(), "hf_cache")
+)
 
 # Initialize Groq LLM
 llm = ChatGroq(
@@ -35,6 +43,7 @@ llm = ChatGroq(
     model_name="llama3-70b-8192",
     temperature=0.0,
 )
+
 
 # PostgreSQL connection
 def get_db_connection(pg_host, pg_database, pg_user, pg_password, pg_port):
@@ -44,12 +53,13 @@ def get_db_connection(pg_host, pg_database, pg_user, pg_password, pg_port):
             database=pg_database,
             user=pg_user,
             password=pg_password,
-            port=pg_port
+            port=pg_port,
         )
         return conn
     except psycopg2.Error as e:
         st.error(f"Error connecting to PostgreSQL: {e}")
         return None
+
 
 def extract_postgres_schema(conn):
     """
@@ -63,42 +73,51 @@ def extract_postgres_schema(conn):
     try:
         with conn.cursor() as cur:
             # Get all tables in the public schema
-            cur.execute("""
+            cur.execute(
+                """
                 SELECT table_name
                 FROM information_schema.tables
                 WHERE table_schema = 'public'
-            """)
+            """
+            )
             tables = [row[0] for row in cur.fetchall()]
 
             for table_name in tables:
                 # Get table description (comment)
-                cur.execute("""
+                cur.execute(
+                    """
                     SELECT obj_description(t.oid, 'pg_class')
                     FROM pg_class t
                     WHERE t.relname = %s AND t.relnamespace = (SELECT oid FROM pg_namespace WHERE nspname = 'public')
-                """, (table_name,))
+                """,
+                    (table_name,),
+                )
                 table_description = cur.fetchone()[0] or ""
 
                 # Get columns and their details
-                cur.execute("""
+                cur.execute(
+                    """
                     SELECT 
                         column_name,
                         data_type,
                         col_description((SELECT oid FROM pg_class WHERE relname = %s), ordinal_position)
                     FROM information_schema.columns
                     WHERE table_schema = 'public' AND table_name = %s
-                """, (table_name, table_name))
+                """,
+                    (table_name, table_name),
+                )
                 columns = []
                 column_details = {}
                 for col_name, data_type, col_description in cur.fetchall():
                     columns.append(col_name)
                     column_details[col_name] = {
                         "data_type": data_type.upper(),
-                        "description": col_description or ""
+                        "description": col_description or "",
                     }
 
                 # Get relationships (foreign keys)
-                cur.execute("""
+                cur.execute(
+                    """
                     SELECT 
                         tc.constraint_name,
                         kcu.column_name AS from_column,
@@ -112,15 +131,19 @@ def extract_postgres_schema(conn):
                     WHERE tc.constraint_type = 'FOREIGN KEY'
                         AND tc.table_schema = 'public'
                         AND tc.table_name = %s
-                """, (table_name,))
+                """,
+                    (table_name,),
+                )
                 relationships = []
                 for _, from_column, related_table, to_column in cur.fetchall():
-                    relationships.append({
-                        "type": "many-to-one",
-                        "related_table": related_table,
-                        "from_column": from_column,
-                        "to_column": to_column
-                    })
+                    relationships.append(
+                        {
+                            "type": "many-to-one",
+                            "related_table": related_table,
+                            "from_column": from_column,
+                            "to_column": to_column,
+                        }
+                    )
 
                 # Construct schema entry
                 table_info = {
@@ -128,7 +151,7 @@ def extract_postgres_schema(conn):
                     "description": table_description,
                     "columns": columns,
                     "column_details": column_details,
-                    "relationships": relationships
+                    "relationships": relationships,
                 }
                 schema_data.append(table_info)
 
@@ -136,6 +159,7 @@ def extract_postgres_schema(conn):
         pass  # Connection will be managed by session state
 
     return schema_data
+
 
 def save_schema_to_json(schema_data, filename="schemas.json"):
     """
@@ -147,6 +171,7 @@ def save_schema_to_json(schema_data, filename="schemas.json"):
         st.success(f"Schema saved to {filename}")
     except Exception as e:
         st.error(f"Error saving schema to {filename}: {e}")
+
 
 def load_schema_from_json(filename="schemas.json"):
     """
@@ -161,6 +186,7 @@ def load_schema_from_json(filename="schemas.json"):
     except (FileNotFoundError, json.JSONDecodeError) as e:
         st.warning(f"Error loading schema from {filename}: {e}")
         return None
+
 
 class NLtoSQL:
     def __init__(self):
@@ -191,9 +217,7 @@ class NLtoSQL:
 
         # Create FAISS vector store from schema texts
         self.vectorstore = FAISS.from_texts(texts=documents, embedding=embeddings)
-        self.retriever = self.vectorstore.as_retriever(
-            search_kwargs={"k": 10}
-        )
+        self.retriever = self.vectorstore.as_retriever(search_kwargs={"k": 10})
 
         st.success(f"Loaded {len(documents)} schema documents into FAISS")
 
@@ -234,9 +258,12 @@ class NLtoSQL:
 
         return sql_query
 
+
 def main():
     st.title("Natural Language to SQL Query Generator")
-    st.write("Connect to a PostgreSQL database and enter a natural language query to generate a SQL query.")
+    st.write(
+        "Connect to a PostgreSQL database and enter a natural language query to generate a SQL query."
+    )
 
     # Initialize session state variables
     if "db_connection" not in st.session_state:
@@ -254,7 +281,9 @@ def main():
         pg_user = st.text_input("Username")
         pg_password = st.text_input("Password", type="password")
         pg_port = st.text_input("Port", value="5432")
-        connect_button = st.form_submit_button("Connect" if not st.session_state.connected else "Disconnect")
+        connect_button = st.form_submit_button(
+            "Connect" if not st.session_state.connected else "Disconnect"
+        )
 
     # Handle connect/disconnect
     if connect_button:
@@ -268,7 +297,9 @@ def main():
             st.success("Disconnected from database")
         else:
             # Connect
-            conn = get_db_connection(pg_host, pg_database, pg_user, pg_password, pg_port)
+            conn = get_db_connection(
+                pg_host, pg_database, pg_user, pg_password, pg_port
+            )
             if conn:
                 st.session_state.db_connection = conn
                 st.session_state.connected = True
@@ -290,9 +321,11 @@ def main():
     # Query input section
     if st.session_state.connected:
         st.subheader("Query Input")
-        query = st.text_input("Enter your natural language query:", 
-                             placeholder="e.g., List policy numbers where the payment is counted")
-        
+        query = st.text_input(
+            "Enter your natural language query:",
+            placeholder="e.g., List policy numbers where the payment is counted",
+        )
+
         if st.button("Generate SQL Query"):
             if query.strip():
                 try:
@@ -306,6 +339,7 @@ def main():
                 st.warning("Please enter a valid query.")
     else:
         st.warning("Please establish a database connection before entering a query.")
+
 
 if __name__ == "__main__":
     main()
