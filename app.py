@@ -314,7 +314,7 @@ def main():
                     )
                     if conn:
                         st.session_state.db_connection = conn
-                        st.session_state.connected_trades = True
+                        st.session_state.connected = True
                         st.session_state.selected_host = selected_host
                         # Extract and initialize schema
                         try:
