@@ -14,12 +14,10 @@ import uuid
 # Patch LocalSourcesWatcher to skip torch.classes
 original_get_module_paths = local_sources_watcher.get_module_paths
 
-
 def patched_get_module_paths(module):
     if module.__name__.startswith("torch.classes"):
         return []
     return original_get_module_paths(module)
-
 
 local_sources_watcher.get_module_paths = patched_get_module_paths
 
@@ -31,7 +29,6 @@ GROQ_API_KEY = env_vars.get("GROQ_API_KEY")
 os.environ["TRANSFORMERS_CACHE"] = os.path.join(os.getcwd(), "hf_cache")
 os.environ["HF_HOME"] = os.path.join(os.getcwd(), "hf_cache")
 
-# Initialize embedding model
 embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
 embeddings = HuggingFaceEmbeddings(
     model_name=embedding_model_name, cache_folder=os.path.join(os.getcwd(), "hf_cache")
@@ -44,6 +41,15 @@ llm = ChatGroq(
     temperature=0.0,
 )
 
+# Load credentials from JSON file
+def load_credentials(filename="credentials.json"):
+    try:
+        with open(filename, "r") as f:
+            credentials = json.load(f)
+        return credentials
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        st.error(f"Error loading credentials from {filename}: {e}")
+        return []
 
 # PostgreSQL connection
 def get_db_connection(pg_host, pg_database, pg_user, pg_password, pg_port):
@@ -59,7 +65,6 @@ def get_db_connection(pg_host, pg_database, pg_user, pg_password, pg_port):
     except psycopg2.Error as e:
         st.error(f"Error connecting to PostgreSQL: {e}")
         return None
-
 
 def extract_postgres_schema(conn):
     """
@@ -160,7 +165,6 @@ def extract_postgres_schema(conn):
 
     return schema_data
 
-
 def save_schema_to_json(schema_data, filename="schemas.json"):
     """
     Save the schema data to a JSON file.
@@ -171,7 +175,6 @@ def save_schema_to_json(schema_data, filename="schemas.json"):
         st.success(f"Schema saved to {filename}")
     except Exception as e:
         st.error(f"Error saving schema to {filename}: {e}")
-
 
 def load_schema_from_json(filename="schemas.json"):
     """
@@ -186,7 +189,6 @@ def load_schema_from_json(filename="schemas.json"):
     except (FileNotFoundError, json.JSONDecodeError) as e:
         st.warning(f"Error loading schema from {filename}: {e}")
         return None
-
 
 class NLtoSQL:
     def __init__(self):
@@ -258,11 +260,10 @@ class NLtoSQL:
 
         return sql_query
 
-
 def main():
     st.title("Natural Language to SQL Query Generator")
     st.write(
-        "Connect to a PostgreSQL database and enter a natural language query to generate a SQL query."
+        "Select a database host from the dropdown to connect and enter a natural language query to generate a SQL query."
     )
 
     # Initialize session state variables
@@ -272,15 +273,16 @@ def main():
         st.session_state.nl_to_sql = None
     if "connected" not in st.session_state:
         st.session_state.connected = False
+    if "selected_host" not in st.session_state:
+        st.session_state.selected_host = None
 
     # Database connection form
     st.subheader("Database Connection")
+    credentials = load_credentials()
+    host_options = [cred["Host"] for cred in credentials] if credentials else ["No hosts available"]
+
     with st.form(key="db_form"):
-        pg_host = st.text_input("Host", value="localhost")
-        pg_database = st.text_input("Database")
-        pg_user = st.text_input("Username")
-        pg_password = st.text_input("Password", type="password")
-        pg_port = st.text_input("Port", value="5432")
+        selected_host = st.selectbox("Select Host", host_options, index=host_options.index(st.session_state.selected_host) if st.session_state.selected_host in host_options else 0)
         connect_button = st.form_submit_button(
             "Connect" if not st.session_state.connected else "Disconnect"
         )
@@ -294,29 +296,46 @@ def main():
             st.session_state.db_connection = None
             st.session_state.nl_to_sql = None
             st.session_state.connected = False
+            st.session_state.selected_host = None
             st.success("Disconnected from database")
         else:
             # Connect
-            conn = get_db_connection(
-                pg_host, pg_database, pg_user, pg_password, pg_port
-            )
-            if conn:
-                st.session_state.db_connection = conn
-                st.session_state.connected = True
-                # Extract and initialize schema
-                try:
-                    schema_file = f"schemas.json"
-                    schema_data = extract_postgres_schema(conn)
-                    save_schema_to_json(schema_data, schema_file)
-                    nl_to_sql = NLtoSQL()
-                    nl_to_sql.initialize_schema(schema_data)
-                    st.session_state.nl_to_sql = nl_to_sql
-                    st.success("Connected to database and schema initialized")
-                except Exception as e:
-                    st.error(f"Error extracting schema: {e}")
-                    conn.close()
-                    st.session_state.db_connection = None
-                    st.session_state.connected = False
+            if selected_host != "No hosts available":
+                # Find the credentials for the selected host
+                selected_cred = next((cred for cred in credentials if cred["Host"] == selected_host), None)
+                if selected_cred:
+                    conn = get_db_connection(
+                        selected_cred["Host"],
+                        selected_cred["Database"],
+                        selected_cred["Username"],
+                        selected_cred["Password"],
+                        selected_cred["Port"]
+                    )
+                    if conn:
+                        st.session_state.db_connection = conn
+                        st.session_state.connected_trades = True
+                        st.session_state.selected_host = selected_host
+                        # Extract and initialize schema
+                        try:
+                            schema_file = f"schemas.json"
+                            schema_data = extract_postgres_schema(conn)
+                            save_schema_to_json(schema_data, schema_file)
+                            nl_to_sql = NLtoSQL()
+                            nl_to_sql.initialize_schema(schema_data)
+                            st.session_state.nl_to_sql = nl_to_sql
+                            st.success(f"Connected to database {selected_cred['Database']} on {selected_host}")
+                        except Exception as e:
+                            st.error(f"Error extracting schema: {e}")
+                            conn.close()
+                            st.session_state.db_connection = None
+                            st.session_state.connected = False
+                            st.session_state.selected_host = None
+                    else:
+                        st.error("Failed to connect to the database")
+                else:
+                    st.error("Selected host not found in credentials")
+            else:
+                st.error("No hosts available to connect")
 
     # Query input section
     if st.session_state.connected:
@@ -338,8 +357,7 @@ def main():
             else:
                 st.warning("Please enter a valid query.")
     else:
-        st.warning("Please establish a database connection before entering a query.")
-
+        st.warning("Please select a host and connect to a database before entering a query.")
 
 if __name__ == "__main__":
     main()
