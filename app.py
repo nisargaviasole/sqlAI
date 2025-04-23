@@ -33,8 +33,8 @@ os.environ["HF_HOME"] = os.path.join(os.getcwd(), "hf_cache")
 
 embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
 embeddings = HuggingFaceEmbeddings(
-    model_name=embedding_model_name, cache_folder=os.path.join(os.getcwd(), "hf_cache")
-)
+    model_name=embedding_model_name, cache_folder=os.path.join(os.getcwd(), "hf_cache",model_kwargs={"device": "cpu"})
+)   
 
 # Initialize Groq LLM
 llm = ChatGroq(
