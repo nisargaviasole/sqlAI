@@ -289,17 +289,15 @@ def main():
     # Database connection form
     st.subheader("Database Connection")
     credentials = load_credentials()
-    host_options = (
-        [
-            f"database = {cred['Database']}, hostname = {cred['Host']}"
-            for cred in credentials
-        ]
-        if credentials
-        else ["No hosts available"]
-    )
+    host_display_map = {
+        f"database = {cred['Database']}, hostname = {cred['Host']}": cred['Host']
+        for cred in credentials
+    } if credentials else {"No hosts available": None}
+
+    host_options = list(host_display_map.keys())
 
     with st.form(key="db_form"):
-        selected_host = st.selectbox(
+        selected_display = st.selectbox(
             "Select Host",
             host_options,
             index=(
@@ -308,6 +306,9 @@ def main():
                 else 0
             ),
         )
+        
+        # Get the actual hostname
+        selected_host = host_display_map[selected_display]
         connect_button = st.form_submit_button(
             "Connect" if not st.session_state.connected else "Disconnect"
         )
