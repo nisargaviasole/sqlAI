@@ -291,7 +291,7 @@ def main():
     credentials = load_credentials()
     host_options = (
         [
-            f"hostname = {cred['Host']}, database = {cred['Database']}"
+            f"database = {cred['Database']}, hostname = {cred['Host']}"
             for cred in credentials
         ]
         if credentials
