@@ -14,10 +14,12 @@ import uuid
 # Patch LocalSourcesWatcher to skip torch.classes
 original_get_module_paths = local_sources_watcher.get_module_paths
 
+
 def patched_get_module_paths(module):
     if module.__name__.startswith("torch.classes"):
         return []
     return original_get_module_paths(module)
+
 
 local_sources_watcher.get_module_paths = patched_get_module_paths
 
@@ -41,6 +43,7 @@ llm = ChatGroq(
     temperature=0.0,
 )
 
+
 # Load credentials from JSON file
 def load_credentials(filename="credentials.json"):
     try:
@@ -50,6 +53,7 @@ def load_credentials(filename="credentials.json"):
     except (FileNotFoundError, json.JSONDecodeError) as e:
         st.error(f"Error loading credentials from {filename}: {e}")
         return []
+
 
 # PostgreSQL connection
 def get_db_connection(pg_host, pg_database, pg_user, pg_password, pg_port):
@@ -66,6 +70,7 @@ def get_db_connection(pg_host, pg_database, pg_user, pg_password, pg_port):
     except psycopg2.Error as e:
         st.error(f"Error connecting to PostgreSQL: {e}")
         return None
+
 
 def extract_postgres_schema(conn):
     """
@@ -166,6 +171,7 @@ def extract_postgres_schema(conn):
 
     return schema_data
 
+
 def save_schema_to_json(schema_data, filename="schemas.json"):
     """
     Save the schema data to a JSON file.
@@ -176,6 +182,7 @@ def save_schema_to_json(schema_data, filename="schemas.json"):
         st.success(f"Schema saved to {filename}")
     except Exception as e:
         st.error(f"Error saving schema to {filename}: {e}")
+
 
 def load_schema_from_json(filename="schemas.json"):
     """
@@ -190,6 +197,7 @@ def load_schema_from_json(filename="schemas.json"):
     except (FileNotFoundError, json.JSONDecodeError) as e:
         st.warning(f"Error loading schema from {filename}: {e}")
         return None
+
 
 class NLtoSQL:
     def __init__(self):
@@ -261,6 +269,7 @@ class NLtoSQL:
 
         return sql_query
 
+
 def main():
     st.title("Natural Language to SQL Query Generator")
     st.write(
@@ -280,10 +289,25 @@ def main():
     # Database connection form
     st.subheader("Database Connection")
     credentials = load_credentials()
-    host_options = [cred["Host"] for cred in credentials] if credentials else ["No hosts available"]
+    host_options = (
+        [
+            f"hostname = {cred['Host']}, database = {cred['Database']}"
+            for cred in credentials
+        ]
+        if credentials
+        else ["No hosts available"]
+    )
 
     with st.form(key="db_form"):
-        selected_host = st.selectbox("Select Host", host_options, index=host_options.index(st.session_state.selected_host) if st.session_state.selected_host in host_options else 0)
+        selected_host = st.selectbox(
+            "Select Host",
+            host_options,
+            index=(
+                host_options.index(st.session_state.selected_host)
+                if st.session_state.selected_host in host_options
+                else 0
+            ),
+        )
         connect_button = st.form_submit_button(
             "Connect" if not st.session_state.connected else "Disconnect"
         )
@@ -303,14 +327,17 @@ def main():
             # Connect
             if selected_host != "No hosts available":
                 # Find the credentials for the selected host
-                selected_cred = next((cred for cred in credentials if cred["Host"] == selected_host), None)
+                selected_cred = next(
+                    (cred for cred in credentials if cred["Host"] == selected_host),
+                    None,
+                )
                 if selected_cred:
                     conn = get_db_connection(
                         selected_cred["Host"],
                         selected_cred["Database"],
                         selected_cred["Username"],
                         selected_cred["Database_Pass"],
-                        selected_cred["Port"]
+                        selected_cred["Port"],
                     )
                     if conn:
                         st.session_state.db_connection = conn
@@ -324,7 +351,9 @@ def main():
                             nl_to_sql = NLtoSQL()
                             nl_to_sql.initialize_schema(schema_data)
                             st.session_state.nl_to_sql = nl_to_sql
-                            st.success(f"Connected to database {selected_cred['Database']} on {selected_host}")
+                            st.success(
+                                f"Connected to database {selected_cred['Database']} on {selected_host}"
+                            )
                         except Exception as e:
                             st.error(f"Error extracting schema: {e}")
                             conn.close()
@@ -358,7 +387,10 @@ def main():
             else:
                 st.warning("Please enter a valid query.")
     else:
-        st.warning("Please select a host and connect to a database before entering a query.")
+        st.warning(
+            "Please select a host and connect to a database before entering a query."
+        )
+
 
 if __name__ == "__main__":
     main()
