@@ -177,10 +177,17 @@ def extract_postgres_schema(conn):
 def save_schema_to_json(schema_data, filename="schemas.json"):
     """
     Save the schema data to a JSON file.
+    If the file already exists, it is deleted first.
     """
     try:
+        # Delete the file if it exists
+        if os.path.exists(filename):
+            os.remove(filename)
+
+        # Write the new schema data
         with open(filename, "w") as f:
             json.dump(schema_data, f, indent=4)
+
         st.success(f"Schema saved to {filename}")
     except Exception as e:
         st.error(f"Error saving schema to {filename}: {e}")
