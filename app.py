@@ -35,8 +35,8 @@ embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
 embeddings = HuggingFaceEmbeddings(
     model_name=embedding_model_name,
     cache_folder=os.path.join(os.getcwd(), "hf_cache"),
-    model_kwargs={"device": "cpu"}
-) 
+    model_kwargs={"device": "cpu"},
+)
 
 # Initialize Groq LLM
 llm = ChatGroq(
@@ -298,12 +298,21 @@ def main():
     # Database connection form
     st.subheader("Database Connection")
     credentials = load_credentials()
-    host_display_map = {
-        f"database = {cred['Database']}, hostname = {cred['Host']}": cred['Host']
-        for cred in credentials
-    } if credentials else {"No hosts available": None}
+    host_display_map = (
+        {
+            f"database = {cred['Database']}, hostname = {cred['Host']}": (
+                cred["Host"],
+                cred["Database"],
+            )
+            for cred in credentials
+        }
+        if credentials
+        else {"No hosts available": (None, None)}
+    )
 
+    # Options to show in the selectbox
     host_options = list(host_display_map.keys())
+    print("hos", st.session_state.selected_host)
 
     with st.form(key="db_form"):
         selected_display = st.selectbox(
@@ -315,14 +324,16 @@ def main():
                 else 0
             ),
         )
-        
-        # Get the actual hostname
-        selected_host = host_display_map[selected_display]
+
+        print("selected display", selected_display)
+
+        # Get the actual (host, db)
+        selected_host, selected_db = host_display_map[selected_display]
+
         connect_button = st.form_submit_button(
             "Connect" if not st.session_state.connected else "Disconnect"
         )
 
-    # Handle connect/disconnect
     if connect_button:
         if st.session_state.connected:
             # Disconnect
@@ -336,11 +347,21 @@ def main():
         else:
             # Connect
             if selected_host != "No hosts available":
-                # Find the credentials for the selected host
+                print("selected host", selected_host)
+                print("selected db", selected_db)
+
+                # Find the credentials matching both host and database
                 selected_cred = next(
-                    (cred for cred in credentials if cred["Host"] == selected_host),
+                    (
+                        cred
+                        for cred in credentials
+                        if cred["Host"] == selected_host
+                        and cred["Database"] == selected_db
+                    ),
                     None,
                 )
+                print("selected cred", selected_cred)
+
                 if selected_cred:
                     conn = get_db_connection(
                         selected_cred["Host"],
