@@ -74,27 +74,6 @@ def get_db_connection():
             st.error(f"Error connecting to Microsoft SQL Server: {e}")
         return None
 
-def generate_default_description(col_name, data_type, table_name, is_primary_key=False):
-    data_type = data_type.upper()
-    common_columns = {
-        'ID': 'Unique identifier',
-        'NAME': 'Name or title',
-        'DATE': 'Date of the record',
-        'TIME': 'Time of the record',
-        'AMOUNT': 'Monetary or quantitative value',
-        'NUMBER': 'Numeric identifier or count',
-        'STATUS': 'Current state or condition',
-        'DESCRIPTION': 'Detailed information or notes',
-        'POLICY': 'Policy identifier or details',
-        'PAYMENT': 'Payment amount or status',
-        'CLAIM': 'Claim identifier or details',
-        'INSURED': 'Insured party information',
-    }
-    col_name_upper = col_name.upper()
-    prefix = "Primary key: " if is_primary_key else ""
-    if col_name_upper in common_columns:
-        return f"{prefix}{common_columns[col_name_upper]} for the {table_name} table"
-    return f"{prefix}Stores {col_name} data of type {data_type} for the {table_name} table"
 
 def extract_mssql_schema(conn):
     if not conn:
@@ -154,7 +133,7 @@ def extract_mssql_schema(conn):
                 for col_name, data_type, is_nullable, char_max_len, col_description in cur.fetchall():
                     columns.append(col_name)
                     is_pk = col_name in primary_keys
-                    final_description = col_description if col_description else generate_default_description(col_name, data_type, table_name, is_pk)
+                    final_description = col_description
                     column_details[col_name] = {
                         "data_type": data_type.upper(),
                         "is_nullable": is_nullable,
@@ -231,176 +210,124 @@ class NLtoSQL:
     def initialize_schema(self, schema_data):
         self.schema_data = schema_data
         documents = []
+        self.table_lookup = {}  # Add this for faster table lookups
+        
+        for table_info in schema_data:
+            table_name = table_info["table_name"]
+            self.table_lookup[table_name] = table_info  # Store for quick access
+
         for table_info in schema_data:
             table_name = table_info["table_name"]
             columns = table_info["columns"]
             primary_keys = table_info.get("primary_keys", [])
             relationships = table_info.get("relationships", [])
-            table_doc = (
-                f"Table: {table_name}\n"
-                f"Description: {table_info.get('description', 'No description available')}\n"
-                f"Columns: {', '.join(columns)}\n"
-                f"Primary keys: {', '.join(primary_keys) if primary_keys else 'None'}\n"
-                f"Relationships: {len(relationships)} relationships to other tables"
-            )
-            documents.append(table_doc)
+            column_details = table_info.get("column_details", {})
+
+            # Group full table schema into one document
+            column_lines = []
             for col in columns:
-                col_info = table_info.get("column_details", {}).get(col, {})
-                col_doc = (
-                    f"Column: {col} in Table: {table_name}\n"
-                    f"Data Type: {col_info.get('data_type', 'unknown')}\n"
-                    f"Nullable: {'Yes' if col_info.get('is_nullable') == 'YES' else 'No'}\n"
-                    f"Description: {col_info.get('description', 'No description available')}\n"
-                    f"Example Usage: {table_name}.{col} stores {col_info.get('description', 'data')}"
+                col_info = column_details.get(col, {})
+                dtype = col_info.get("data_type", "unknown")
+                nullable = "YES" if col_info.get("is_nullable") == "YES" else "NO"
+                description = col_info.get("description", "No description")
+                column_lines.append(
+                    f"  - {col} ({dtype}, Nullable: {nullable}): {description}"
                 )
-                documents.append(col_doc)
-                if col.lower() in ['name', 'user', 'id', 'date', 'time', 'amount']:
-                    alias_doc = (
-                        f"Common Column: {col} (also known as {col.lower()}) in Table: {table_name}\n"
-                        f"Data Type: {col_info.get('data_type', 'unknown')}\n"
-                        f"Description: {col_info.get('description', 'No description available')}"
-                    )
-                    documents.append(alias_doc)
+
+            relationship_lines = []
             for rel in relationships:
-                rel_doc = (
-                    f"Relationship: {table_name} to {rel['related_table']}\n"
-                    f"Type: {rel['type']}\n"
-                    f"Join Condition: {table_name}.{rel['from_column']} = {rel['related_table']}.{rel['to_column']}\n"
-                    f"Description: Links records in {table_name} to {rel['related_table']}"
+                # Get details about the related table
+                related_table_info = self.table_lookup.get(rel['related_table'], {})
+                related_pk = related_table_info.get('primary_keys', ['id'])[0]
+                
+                rel_line = (
+                    f"{table_name}.{rel['from_column']} → {rel['related_table']}."
+                    f"{rel.get('to_column', related_pk)} ({rel['type']})"
                 )
-                documents.append(rel_doc)
+                relationship_lines.append(rel_line)
+
+            table_doc = f"""Table: {table_name}
+    Primary Keys: {', '.join(primary_keys) if primary_keys else 'None'}
+
+    Columns:
+    {chr(10).join(column_lines)}
+
+    Relationships:
+    {chr(10).join(relationship_lines) if relationship_lines else 'None'}
+    """
+            documents.append(table_doc.strip())
+
+        # Index documents in FAISS
         self.vectorstore = FAISS.from_texts(texts=documents, embedding=embeddings)
-        self.retriever = self.vectorstore.as_retriever(search_kwargs={"k": 15})
-        st.success(f"Loaded {len(documents)} schema documents into FAISS")
+        self.retriever = self.vectorstore.as_retriever(search_kwargs={"k": 2})
 
-    def clean_sql_query(self, sql_query):
-        if sql_query.startswith("```sql"):
-            sql_query = sql_query[6:].strip()
-        if sql_query.endswith("```"):
-            sql_query = sql_query[:-3].strip()
-        sql_query = re.sub(r'(?i)\bselect\b', 'SELECT', sql_query)
-        sql_query = re.sub(r'(?i)\bfrom\b', 'FROM', sql_query)
-        sql_query = re.sub(r'(?i)\bwhere\b', 'WHERE', sql_query)
-        sql_query = re.sub(r'(?i)\bjoin\b', 'JOIN', sql_query)
-        sql_query = re.sub(r'(?i)\bgroup by\b', 'GROUP BY', sql_query)
-        sql_query = re.sub(r'(?i)\border by\b', 'ORDER BY', sql_query)
-        sql_query = re.sub(r'\s+', ' ', sql_query).strip()
-        sql_query = re.sub(r'(\S)(\(|\))', r'\1 \2', sql_query)
-        sql_query = re.sub(r'(\(|\))(\S)', r'\1 \2', sql_query)
-        return sql_query
+        st.success(f"Loaded {len(documents)} schema documents into FAISS.")
 
-    def validate_column_names(self, sql_query):
-        if not self.schema_data:
-            return sql_query
-        schema_columns = set()
-        schema_tables = set()
-        for table in self.schema_data:
-            schema_tables.add(table['table_name'])
-            schema_columns.update(f"{table['table_name']}.{col}" for col in table['columns'])
-        column_pattern = r'\[dbo\]\.\[(\w+)\]\.\[(\w+)\]'
-        matches = re.finditer(column_pattern, sql_query, re.IGNORECASE)
-        for match in matches:
-            table_name, col_name = match.group(1), match.group(2)
-            full_ref = f"{table_name}.{col_name}"
-            if table_name not in schema_tables:
-                return f"-- Error: Table [{table_name}] not found in schema"
-            if full_ref not in schema_columns:
-                for table in self.schema_data:
-                    if table['table_name'].lower() == table_name.lower():
-                        for col in table['columns']:
-                            if col.lower() == col_name.lower():
-                                correct_ref = f"[dbo].[{table['table_name']}].[{col}]"
-                                sql_query = sql_query.replace(match.group(0), correct_ref)
-                                break
-                        else:
-                            return f"-- Error: Column [{col_name}] not found in table [{table_name}]"
-                        break
-                else:
-                    return f"-- Error: Table [{table_name}] not found in schema"
-        return sql_query
+
 
     def process_natural_language(self, query):
-        retrieved_docs = self.retriever.invoke(query)
-        context = "\n\n".join([doc.page_content for doc in retrieved_docs])
-        system_prompt = """You are an expert SQL query generator for Microsoft SQL Server. Your task is to convert natural language queries into precise, valid SQL queries based EXCLUSIVELY on the provided database schema.
+        # Step 1: Get initial relevant tables from FAISS
+        retrieved_docs = self.retriever.get_relevant_documents(query)  # Changed from invoke()
+        
+        # Step 2: Extract all mentioned tables from retrieved docs
+        mentioned_tables = set()
+        for doc in retrieved_docs:
+            content = doc.page_content  # Now properly accessing page_content
+            if content.startswith("Table:"):
+                table_name = content.split("\n")[0].replace("Table:", "").strip()
+                mentioned_tables.add(table_name)
+        
+        # Step 3: Find all relationally connected tables
+        related_tables = set()
+        for table in mentioned_tables:
+            # Find direct relationships (tables this table connects to)
+            for table_info in self.schema_data:
+                if table_info["table_name"] == table:
+                    for rel in table_info.get("relationships", []):
+                        related_tables.add(rel["related_table"])
+            
+            # Find inverse relationships (tables that connect to this table)
+            for table_info in self.schema_data:
+                for rel in table_info.get("relationships", []):
+                    if rel["related_table"] == table:
+                        related_tables.add(table_info["table_name"])
+        
+        # Step 4: Get schema documents for all related tables
+        all_tables = mentioned_tables.union(related_tables)
+        expanded_docs = []
+        
+        for table in all_tables:
+            # Find the table's document in the original schema data
+            for table_info in self.schema_data:
+                if table_info["table_name"] == table:
+                    # Recreate the document format you used in initialize_schema
+                    table_doc = self._create_table_document(table_info)
+                    expanded_docs.append(table_doc)
+                    break
+        
+        # Step 5: Use all this context for SQL generation
+        context = "\n\n".join(expanded_docs)
+        print(context)
+        system_prompt = """You are a SQL query generator for Microsoft SQL Server (T-SQL). Your task is to convert natural language 
+            queries into valid T-SQL queries based strictly on the database schema provided.
 
-IMPORTANT SAFETY RULE:
-- If the user requests any query that would MODIFY data (INSERT, UPDATE, DELETE, ALTER, DROP, etc.),
-  immediately respond with: "I cannot generate queries that modify the database."
+            Here is the relevant database schema information:
+            {context}
 
-Database Schema Context:
-{context}
-
-### STRICT REQUIREMENTS ###
-1. OUTPUT FORMAT:
-   - Generate ONLY the SQL query without any explanations, comments, or additional text
-   - Format the query with proper line breaks for readability (not all in one line)
-   - Use this exact formatting style:
-     SELECT [dbo].[Table1].[Column1], [dbo].[Table2].[Column2]
-     FROM [dbo].[Table1]
-     INNER JOIN [dbo].[Table2] ON [dbo].[Table1].[ID] = [dbo].[Table2].[Table1ID]
-     WHERE [dbo].[Table1].[Status] = 1
-     ORDER BY [dbo].[Table2].[Date] DESC
-
-2. IDENTIFIER FORMATTING:
-   - Use square brackets [ ] for ALL identifiers
-   - ALWAYS qualify table names with [dbo] schema (e.g., [dbo].[Customers])
-   - For columns, use either:
-     - [dbo].[TableName].[ColumnName] (preferred), or
-     - [TableName].[ColumnName] if unambiguous
-
-3. SCHEMA ADHERENCE RULES:
-   - You MUST use EXACT table and column names from the schema (case-sensitive)
-   - DOUBLE-CHECK that every table/column exists in the schema before using it
-   - If the natural language term doesn't match any schema object, DO NOT include it
-   - For ambiguous terms (like 'name', 'user', 'date'):
-     - Check ALL tables in the schema for matching columns
-     - Prefer columns that are primary/foreign keys
-     - Prefer columns with descriptions matching the query intent
-     - If still ambiguous, return "-- Ambiguous: [term] could match: [list possible columns]"
-
-4. QUERY CONSTRUCTION RULES:
-   - SELECT: Always specify exact columns (NEVER use SELECT *)
-   - JOINS:
-     - Use INNER JOIN unless LEFT JOIN is explicitly needed
-     - Always use explicit ON clauses with proper join conditions
-     - Join via primary/foreign key relationships when possible
-   - FILTERING:
-     - Include WHERE clauses for all filtering conditions
-     - Use LOWER() for case-insensitive string comparisons
-     - Use 1/0 for TRUE/FALSE in BIT fields
-   - AGGREGATION:
-     - Use GROUP BY when using aggregate functions
-     - Include all non-aggregated columns in GROUP BY
-   - ORDERING:
-     - Use ORDER BY when sorting is implied
-     - Prefer ordering by primary key when no specific sort is requested
-   - LIMITING:
-     - Use TOP instead of LIMIT (e.g., SELECT TOP 10 ...)
-   - DATES:
-     - Use SQL Server date functions (GETDATE(), DATEADD(), DATEDIFF())
-
-5. ERROR HANDLING:
-   - If the query is impossible given the schema:
-     RETURN "-- Error: [clear reason why query can't be generated]"
-   - If a required table/column is missing:
-     RETURN "-- Missing: [specific table/column needed]"
-   - If the natural language query is unclear:
-     RETURN "-- Clarify: [what specific information is needed]"
-
-6. SPECIAL CASES:
-   - For user-related queries, check if joining with [dbo].[users] is appropriate
-   - For date ranges, use proper date comparisons (>=, <=, BETWEEN)
-   - For text searches, use LIKE with LOWER(): 
-     WHERE LOWER([dbo].[Table].[Column]) LIKE LOWER('%search%')
-
-### EXAMPLE OUTPUT ###
-SELECT [dbo].[Orders].[OrderID], [dbo].[Customers].[CustomerName]
-FROM [dbo].[Orders]
-INNER JOIN [dbo].[Customers] ON [dbo].[Orders].[CustomerID] = [dbo].[Customers].[CustomerID]
-WHERE [dbo].[Orders].[OrderDate] >= DATEADD(day, -30, GETDATE())
-ORDER BY [dbo].[Orders].[OrderDate] DESC
-""".format(context=context)
+            **Instructions**:
+            - Return only the SQL query without any explanation or formatting.
+            - Use only column names and table names exactly as they appear in the schema. Do not assume or hallucinate any field or table.
+            - Convert Boolean values to integers: use 1 for true and 0 for false.
+            - Use square brackets for all table names and column names (e.g., [users], [order_date]).
+            - Ensure the query is valid T-SQL syntax for SQL Server.
+            - For queries involving specific users (e.g., fetching orders for a user by name), use INNER JOIN to join the [users] table with the relevant table using the relationship between [users].[id] and <table>.[user_id].
+            - Use LEFT OUTER JOIN only when the query explicitly requires including non-matching rows from the primary table.
+            - Do not use subqueries (e.g., WHERE [user_id] = (SELECT [id] FROM [users] ...)) unless absolutely necessary.
+            - Use LOWER([column]) LIKE '%value%' for case-insensitive string matching.
+            - If a required column or table is not present in the schema, return a comment like: -- Additional information needed: <details>.
+            - In the query if a new column made Give it a Proper name Which can define the column.
+            - JUST RETURN QUERY ONLY DO NOT ADD QUOTS TO IT.
+            """.format(context=context)
 
         messages = [
             SystemMessage(content=system_prompt),
@@ -410,11 +337,59 @@ ORDER BY [dbo].[Orders].[OrderDate] DESC
         try:
             response = llm.invoke(messages)
             sql_query = response.content.strip()
-            sql_query = self.clean_sql_query(sql_query)
-            sql_query = self.validate_column_names(sql_query)
             return sql_query
         except Exception as e:
             return f"-- Error generating SQL: {str(e)}"
+
+    def _create_table_document(self, table_info):
+        """Helper to recreate the same document format used in initialize_schema"""
+        table_name = table_info["table_name"]
+        columns = table_info["columns"]
+        primary_keys = table_info.get("primary_keys", [])
+        relationships = table_info.get("relationships", [])
+        column_details = table_info.get("column_details", {})
+
+        column_lines = []
+        for col in columns:
+            col_info = column_details.get(col, {})
+            dtype = col_info.get("data_type", "unknown")
+            nullable = "YES" if col_info.get("is_nullable") == "YES" else "NO"
+            description = col_info.get("description", "No description")
+            column_lines.append(
+                f"  - {col} ({dtype}, Nullable: {nullable}): {description}"
+            )
+
+        relationship_lines = []
+        for rel in relationships:
+            rel_line = (
+                f"{table_name}.{rel['from_column']} → {rel['related_table']}."
+                f"{rel['to_column']} ({rel['type']})"
+            )
+            relationship_lines.append(rel_line)
+
+        table_doc = f"""Table: {table_name}
+    Primary Keys: {', '.join(primary_keys) if primary_keys else 'None'}
+
+    Columns:
+    {chr(10).join(column_lines)}
+
+    Relationships:
+    {chr(10).join(relationship_lines) if relationship_lines else 'None'}
+    """
+        return table_doc.strip()
+
+
+def validate_sql_query(sql: str) -> bool:
+    """Basic validation of SQL query syntax"""
+    if not sql or sql.strip().startswith("--"):
+        return False
+    # Check for common SQL operations
+    sql_upper = sql.upper()
+    has_select = "SELECT" in sql_upper
+    has_from = "FROM" in sql_upper
+    # For non-SELECT queries
+    has_operation = any(op in sql_upper for op in ["INSERT", "UPDATE", "DELETE"])
+    return (has_select and has_from) or has_operation
 
 def main():
     st.title("Natural Language to SQL Query Generator")
@@ -479,27 +454,30 @@ def main():
                             sql = st.session_state.nl_to_sql.process_natural_language(query)
                         st.subheader("Generated SQL Query")
                         st.code(sql, language="sql")
+                        # Modify your execution block to:
                         if not sql.startswith(("-- Error:", "-- Ambiguous:", "-- Missing:", "-- Clarify:")):
-                            if st.button("Execute Query"):
-                                try:
-                                    with st.session_state.db_connection.cursor() as cur:
-                                        cur.execute(str(sql))
-                                        if cur.description is not None:
-                                            columns = [desc[0] for desc in cur.description]
-                                            results = cur.fetchall()
-                                            if results:
-                                                df = pd.DataFrame(results, columns=columns)
-                                                st.subheader("Query Results")
-                                                st.dataframe(df)
-                                            else:
-                                                st.info("Query executed successfully but returned no results")
+                            if validate_sql_query(sql):
+                                if st.button("Execute Query"):
+                                    try:
+                                        conn = get_db_connection()
+                                        with conn.cursor() as cur:
+                                            # Add query timeout
+                                            cur.execute(str(sql), timeout=30)
+                                            df = cur.fetchall()
+                                            print("DATAFRAME",df)
+                                            st.dataframe(df)
+                                            # Rest of your execution code...
+                                    except pyodbc.Error as e:
+                                        error_msg = str(e)
+                                        if "Invalid object name" in error_msg:
+                                            st.error(f"Table not found: {error_msg}")
+                                        elif "Invalid column name" in error_msg:
+                                            st.error(f"Column not found: {error_msg}")
                                         else:
-                                            rowcount = cur.rowcount
-                                            st.session_state.db_connection.commit()
-                                            st.success(f"Query executed successfully. Rows affected: {rowcount}")
-                                except pyodbc.Error as e:
-                                    st.error(f"Error executing query: {e}")
-                                    st.session_state.db_connection.rollback()
+                                            st.error(f"Database error: {error_msg}")
+                                        st.session_state.db_connection.rollback()
+                            else:
+                                st.warning("Generated query appears invalid - please review before executing")
                     except Exception as e:
                         st.error(f"Error generating SQL query: {e}")
             else:
