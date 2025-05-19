@@ -264,7 +264,6 @@ class NLtoSQL:
         st.success(f"Loaded {len(documents)} schema documents into FAISS.")
 
 
-
     def process_natural_language(self, query):
         # Step 1: Get initial relevant tables from FAISS
         retrieved_docs = self.retriever.get_relevant_documents(query)  # Changed from invoke()
@@ -400,6 +399,9 @@ def main():
         st.session_state.nl_to_sql = None
     if "connected" not in st.session_state:
         st.session_state.connected = False
+    if "generated_sql" not in st.session_state:
+        st.session_state.generated_sql = None  # Initialize generated_sql
+
     st.subheader("Database Connection")
     connect_button = st.button("Connect" if not st.session_state.connected else "Disconnect")
     if connect_button:
@@ -409,6 +411,7 @@ def main():
             st.session_state.db_connection = None
             st.session_state.nl_to_sql = None
             st.session_state.connected = False
+            st.session_state.generated_sql = None  # Clear query on disconnect
             st.success("Disconnected from database")
         else:
             conn = get_db_connection()
@@ -438,6 +441,7 @@ def main():
                         st.error("Failed to initialize NLtoSQL.")
             else:
                 st.error("Failed to connect to the database")
+
     if st.session_state.connected:
         st.subheader("Query Input")
         query = st.text_input(
@@ -452,36 +456,52 @@ def main():
                     try:
                         with st.spinner("Generating SQL query..."):
                             sql = st.session_state.nl_to_sql.process_natural_language(query)
-                        st.subheader("Generated SQL Query")
-                        st.code(sql, language="sql")
-                        # Modify your execution block to:
-                        if not sql.startswith(("-- Error:", "-- Ambiguous:", "-- Missing:", "-- Clarify:")):
-                            if validate_sql_query(sql):
-                                if st.button("Execute Query"):
-                                    try:
-                                        conn = get_db_connection()
-                                        with conn.cursor() as cur:
-                                            # Add query timeout
-                                            cur.execute(str(sql), timeout=30)
-                                            df = cur.fetchall()
-                                            print("DATAFRAME",df)
-                                            st.dataframe(df)
-                                            # Rest of your execution code...
-                                    except pyodbc.Error as e:
-                                        error_msg = str(e)
-                                        if "Invalid object name" in error_msg:
-                                            st.error(f"Table not found: {error_msg}")
-                                        elif "Invalid column name" in error_msg:
-                                            st.error(f"Column not found: {error_msg}")
-                                        else:
-                                            st.error(f"Database error: {error_msg}")
-                                        st.session_state.db_connection.rollback()
-                            else:
-                                st.warning("Generated query appears invalid - please review before executing")
+                            st.session_state.generated_sql = sql
                     except Exception as e:
                         st.error(f"Error generating SQL query: {e}")
+
+        # Always display the generated SQL query if it exists
+        if st.session_state.generated_sql:
+            st.subheader("Generated SQL Query")
+            st.code(st.session_state.generated_sql, language="sql")
+
+        st.subheader("Execute Generated Query")
+        if st.button("Execute Query", key="execute_query_button"):
+            if not st.session_state.generated_sql:
+                st.warning("No SQL query generated. Please generate a query first.")
+                return
+            if not st.session_state.db_connection:
+                st.error("Database connection is not active. Please reconnect.")
+                return
+            sql = st.session_state.generated_sql
+            if sql.startswith(("-- Error:", "-- Ambiguous:", "-- Missing:", "-- Clarify:")):
+                st.warning(f"Cannot execute: {sql}")
+                return
+            is_valid = validate_sql_query(sql)
+            if is_valid:
+                try:
+                    with st.session_state.db_connection.cursor() as cur:
+                        cur.execute(str(sql))
+                        if cur.description:
+                            columns = [desc[0] for desc in cur.description]
+                            data = cur.fetchall()
+                            data = [tuple(row) for row in data]
+                            df = pd.DataFrame(data, columns=columns)
+                            st.table(df)
+                        else:
+                            st.success("Query executed successfully (no results returned).")
+                            st.session_state.db_connection.commit()
+                except pyodbc.Error as e:
+                    error_msg = str(e)
+                    if "Invalid object name" in error_msg:
+                        st.error(f"Table not found: {error_msg}")
+                    elif "Invalid column name" in error_msg:
+                        st.error(f"Column not found: {error_msg}")
+                    else:
+                        st.error(f"Database error: {error_msg}")
+                    st.session_state.db_connection.rollback()
             else:
-                st.warning("Please enter a valid query.")
+                st.warning("Generated query appears invalid - please review before executing")
     else:
         st.warning("Please connect to the database before entering a query.")
 
