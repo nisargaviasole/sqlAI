@@ -19,14 +19,6 @@ import re
 # Patch LocalSourcesWatcher to skip torch.classes
 original_get_module_paths = local_sources_watcher.get_module_paths
 
-connection_string = (
-    "DRIVER={ODBC Driver 17 for SQL Server};"
-    "SERVER=database-1.cqoogwjzkscw.eu-west-2.rds.amazonaws.com,1433;"
-    "DATABASE=chronoplot_DB;"
-    "UID=Admin;"
-    "PWD=HildsFar2811;"
-    "TrustServerCertificate=yes;"
-)
 
 def patched_get_module_paths(module):
     if module.__name__.startswith("torch.classes"):
@@ -39,6 +31,7 @@ local_sources_watcher.get_module_paths = patched_get_module_paths
 # Load environment variables
 env_vars = dotenv_values(".env")
 GROQ_API_KEY = env_vars.get("GROQ_API_KEY")
+connection_string = env_vars.get("SQL_DATABASE")
 
 # Initialize embedding model
 os.environ["TRANSFORMERS_CACHE"] = os.path.join(os.getcwd(), "hf_cache")
